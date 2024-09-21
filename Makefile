@@ -1,4 +1,6 @@
-.PHONY: error pipx-install pipx-reinstall pipx-force-install
+.PHONY: error \
+		pipx-install pipx-reinstall pipx-force-install \
+		git-force-clean git-restore
 
 error:
 	@echo "Please choose one of the following target: pipx-install, pipx-reinstall pipx-force-install"
@@ -17,3 +19,11 @@ pipx-force-install:
 	pushd .. 1>/dev/null && \
 	pipx install --force -e 'glasgow/software[builtin-toolchain]' && \
 	popd 1>/dev/null
+
+git-force-clean:
+	git clean -fdx
+	git submodule foreach git clean -fdx
+
+git-restore:
+	git restore .
+	git submodule foreach git restore .
