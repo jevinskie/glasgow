@@ -37,3 +37,4 @@ clean-firmware:
 build-firmware: clean-firmware
 	$(MAKE) -C vendor/libfx2/firmware/library all MODELS=medium
 	$(MAKE) -C firmware all
+	cp firmware/glasgow.ihex software/glasgow/device/firmware.ihex
