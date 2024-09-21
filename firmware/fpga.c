@@ -3,13 +3,13 @@
 #include <fx2i2c.h>
 #include "glasgow.h"
 
-void fpga_init() {
+void fpga_init(void) {
   OED |=  (1<<PIND_LED_ICE);
   fpga_is_ready();
 }
 
 // Also sets the LED status, for code size reasons.
-bool fpga_is_ready() {
+bool fpga_is_ready(void) {
   if(IO_CDONE) {
     if (!test_leds)
       IO_LED_ICE = 1;
@@ -21,7 +21,7 @@ bool fpga_is_ready() {
   }
 }
 
-void fpga_reset() {
+void fpga_reset(void) {
   switch(glasgow_config.revision) {
     case GLASGOW_REV_A:
     case GLASGOW_REV_B:
@@ -123,7 +123,7 @@ __endasm;
 #undef  BIT
 }
 
-bool fpga_start() {
+bool fpga_start(void) {
 __asm
   mov  a, #49
 

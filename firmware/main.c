@@ -208,7 +208,7 @@ void handle_usb_get_descriptor(enum usb_descriptor type, uint8_t index) {
   }
 }
 
-static void config_init() {
+static void config_init(void) {
   unsigned char load_cmd;
   if(!eeprom_read(I2C_ADDR_FX2_MEM, 0, &load_cmd, sizeof(load_cmd), /*double_byte=*/true))
     goto fail;
@@ -240,7 +240,7 @@ static __xdata char *usb_string_at_index(uint8_t index) {
 }
 
 // Populate descriptors from device configuration, if any.
-static void descriptors_init() {
+static void descriptors_init(void) {
   __xdata struct usb_desc_device *desc_device = (__xdata struct usb_desc_device *)usb_device;
   __xdata char *desc_string;
 
@@ -320,7 +320,7 @@ enum {
 // an USB timeout, and we want to indicate error conditions faster.
 static uint8_t status;
 
-static void update_err_led() {
+static void update_err_led(void) {
   if(!test_leds) {
     if(status & (ST_ERROR | ST_ALERT))
       IO_LED_ERR = 1;
@@ -406,7 +406,7 @@ void handle_usb_get_interface(uint8_t interface) {
 // strictly in order.
 uint16_t bitstream_idx;
 
-void handle_pending_usb_setup() {
+void handle_pending_usb_setup(void) {
   __xdata struct usb_req_setup *req = (__xdata struct usb_req_setup *)SETUPDAT;
   register bool req_dir_in = (req->bmRequestType & USB_DIR_IN);
 
@@ -825,13 +825,13 @@ stall_ep0_return:
 // Define it to armed_alert to document this usage pattern
 #define armed_alert EX0
 
-void isr_IE0() __interrupt(_INT_IE0) {
+void isr_IE0(void) __interrupt(_INT_IE0) {
   // INT_IE0 is level triggered, the ~ALERT line is continuously pulled low by the ADC
   // So disable this irq unil we have fully handled it, otherwise it permanently triggers
   armed_alert = false;
 }
 
-void handle_pending_alert() {
+void handle_pending_alert(void) {
   __xdata uint8_t mask;
   __xdata uint16_t millivolts = 0;
 
@@ -863,14 +863,14 @@ void handle_pending_alert() {
   armed_alert = true;
 }
 
-void isr_TF2() __interrupt(_INT_TF2) {
+void isr_TF2(void) __interrupt(_INT_TF2) {
   if (!test_leds)
     IO_LED_ACT = 0;
   TR2 = false;
   TF2 = false;
 }
 
-static void isr_EPn() __interrupt {
+static void isr_EPn(void) __interrupt {
   if (!test_leds)
     IO_LED_ACT = 1;
   // Just let it run, at the maximum reload value we get a pulse width of around 16ms.
@@ -880,14 +880,14 @@ static void isr_EPn() __interrupt {
   EPIRQ = _EPI_EP0IN|_EPI_EP0OUT|_EPI_EP2|_EPI_EP4|_EPI_EP6|_EPI_EP8;
 }
 
-void isr_EP0IN()  __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
-void isr_EP0OUT() __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
-void isr_EP2()    __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
-void isr_EP4()    __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
-void isr_EP6()    __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
-void isr_EP8()    __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
+void isr_EP0IN(void)  __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
+void isr_EP0OUT(void) __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
+void isr_EP2(void)    __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
+void isr_EP4(void)    __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
+void isr_EP6(void)    __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
+void isr_EP8(void)    __interrupt __naked { __asm ljmp _isr_EPn __endasm; }
 
-int main() {
+int main(void) {
   // Run at 48 MHz, drive CLKOUT.
   CPUCS = _CLKOE|_CLKSPD1;
 

@@ -130,17 +130,17 @@ __xdata __at(0x4000 - CONF_SIZE) struct glasgow_config {
 extern __bit test_leds;
 
 // FPGA API
-void fpga_init();
-void fpga_reset();
+void fpga_init(void);
+void fpga_reset(void);
 void fpga_load(__xdata uint8_t *data, uint8_t len);
-bool fpga_start();
-bool fpga_is_ready();
+bool fpga_start(void);
+bool fpga_is_ready(void);
 bool fpga_reg_select(uint8_t addr);
 bool fpga_reg_read(__xdata uint8_t *value, uint8_t length);
 bool fpga_reg_write(__xdata const uint8_t *value, uint8_t length);
 
 // DAC/LDO API
-void iobuf_init_dac_ldo();
+void iobuf_init_dac_ldo(void);
 void iobuf_enable(bool on);
 bool iobuf_set_voltage(uint8_t mask, __xdata const uint16_t *millivolts);
 bool iobuf_get_voltage(uint8_t selector, __xdata uint16_t *millivolts);
@@ -148,7 +148,7 @@ bool iobuf_set_voltage_limit(uint8_t mask, __xdata const uint16_t *millivolts);
 bool iobuf_get_voltage_limit(uint8_t selector, __xdata uint16_t *millivolts);
 
 // ADC API (TI ADC081C)
-void iobuf_init_adc_adc081c();
+void iobuf_init_adc_adc081c(void);
 bool iobuf_measure_voltage_adc081c(uint8_t selector, __xdata uint16_t *millivolts);
 bool iobuf_set_alert_adc081c(uint8_t mask,
                      __xdata const uint16_t *low_millivolts,
@@ -156,11 +156,11 @@ bool iobuf_set_alert_adc081c(uint8_t mask,
 bool iobuf_get_alert_adc081c(uint8_t selector,
                      __xdata uint16_t *low_millivolts,
                      __xdata uint16_t *high_millivolts);
-bool iobuf_is_alerted_adc081c();
+bool iobuf_is_alerted_adc081c(void);
 bool iobuf_poll_alert_adc081c(__xdata uint8_t *mask, bool clear);
 
 // ADC API (TI INA233)
-bool iobuf_init_adc_ina233();
+bool iobuf_init_adc_ina233(void);
 bool iobuf_measure_voltage_ina233(uint8_t selector, __xdata uint16_t *millivolts);
 bool iobuf_set_alert_ina233(uint8_t mask,
                      __xdata const uint16_t *low_millivolts,
@@ -177,7 +177,7 @@ bool iobuf_set_pull(uint8_t selector, uint8_t enable, uint8_t level);
 bool iobuf_get_pull(uint8_t selector, __xdata uint8_t *enable, __xdata uint8_t *level);
 
 // FIFO API
-void fifo_init();
+void fifo_init(void);
 void fifo_configure(bool two_ep);
 void fifo_reset(bool two_ep, uint8_t interfaces);
 

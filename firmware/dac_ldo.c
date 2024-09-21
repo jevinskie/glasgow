@@ -13,7 +13,7 @@ static const struct buffer_desc buffers[] = {
   { 0, 0 }
 };
 
-void iobuf_init_dac_ldo() {
+void iobuf_init_dac_ldo(void) {
   // Configure I/O buffer pins as open-source/open-drain; they have 100k pulls
   IO_ENVA = 0;
   IO_ENVB = 0;

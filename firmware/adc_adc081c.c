@@ -35,7 +35,7 @@ static const struct buffer_desc buffers[] = {
   { 0, 0 }
 };
 
-void iobuf_init_adc_adc081c() {
+void iobuf_init_adc_adc081c(void) {
   // Set up a level-triggered interrupt on INT0# pin.
   PORTACFG |= _INT0;
   TCON &= ~_IT0;
@@ -145,7 +145,7 @@ bool iobuf_get_alert_adc081c(uint8_t selector,
   return false;
 }
 
-bool iobuf_is_alerted_adc081c() {
+bool iobuf_is_alerted_adc081c(void) {
   return !(IO_ALERT_N);
 }
 

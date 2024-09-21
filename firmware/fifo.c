@@ -2,7 +2,7 @@
 #include <fx2delay.h>
 #include "glasgow.h"
 
-void fifo_init() {
+void fifo_init(void) {
   // Use newest chip features.
   SYNCDELAY;
   REVCTL = _ENH_PKT|_DYN_OUT;

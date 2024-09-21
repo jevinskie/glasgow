@@ -63,7 +63,7 @@ static bool iobuf_reset_ina233(uint8_t i2c_addr) {
   return true;
 }
 
-bool iobuf_init_adc_ina233() {
+bool iobuf_init_adc_ina233(void) {
   __code const struct buffer_desc *buffer;
   for(buffer = buffers; buffer->selector; buffer++) {
     // clear cache
