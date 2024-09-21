@@ -1,6 +1,7 @@
 .PHONY: error \
 		pipx-install pipx-reinstall pipx-force-install \
-		git-force-clean git-restore
+		git-force-clean git-restore \
+		clean-firmware build-firmware
 
 error:
 	@echo "Please choose one of the following target: pipx-install, pipx-reinstall pipx-force-install"
@@ -27,3 +28,12 @@ git-force-clean:
 git-restore:
 	git restore .
 	git submodule foreach git restore .
+
+clean-firmware:
+	$(MAKE) -C vendor/libfx2/firmware/library clean
+	$(MAKE) -C firmware clean
+	rm -f firmware/version.h
+
+build-firmware: clean-firmware
+	$(MAKE) -C vendor/libfx2/firmware/library all MODELS=medium
+	$(MAKE) -C firmware all
